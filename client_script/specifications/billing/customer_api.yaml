@@ -1,0 +1,49 @@
+openapi: 3.0.0
+info:
+  title: Customer API
+  version: 1.0.0
+paths:
+  /customers:
+    get:
+      summary: List customers
+      description: Retrieve a list of all registered customers.
+      responses:
+        '200':
+          description: A list of customers.
+    post:
+      summary: Create a new customer
+      description: Register a new customer in the billing system.
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Customer'
+      responses:
+        '201':
+          description: Customer created successfully.
+
+  /customers/{id}:
+    get:
+      summary: Get customer by ID
+      description: Retrieve details for a specific customer.
+      parameters:
+        - in: path
+          name: id
+          required: true
+          schema:
+            type: string
+      responses:
+        '200':
+          description: Customer details.
+components:
+  schemas:
+    Customer:
+      type: object
+      properties:
+        id:
+          type: string
+        name:
+          type: string
+        email:
+          type: string

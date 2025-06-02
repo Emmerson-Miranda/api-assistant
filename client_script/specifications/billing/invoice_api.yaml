@@ -1,0 +1,51 @@
+openapi: 3.0.0
+info:
+  title: Invoice API
+  version: 1.0.0
+paths:
+  /invoices:
+    get:
+      summary: List invoices
+      description: Retrieve all invoices generated in the system.
+      responses:
+        '200':
+          description: A list of invoices.
+    post:
+      summary: Create an invoice
+      description: Generate a new invoice for a customer.
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Invoice'
+      responses:
+        '201':
+          description: Invoice created successfully.
+
+  /invoices/{id}:
+    get:
+      summary: Get invoice by ID
+      description: Get details of a specific invoice.
+      parameters:
+        - in: path
+          name: id
+          required: true
+          schema:
+            type: string
+      responses:
+        '200':
+          description: Invoice details.
+components:
+  schemas:
+    Invoice:
+      type: object
+      properties:
+        id:
+          type: string
+        customerId:
+          type: string
+        amount:
+          type: number
+        status:
+          type: string

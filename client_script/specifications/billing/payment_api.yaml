@@ -1,0 +1,51 @@
+openapi: 3.0.0
+info:
+  title: Payment API
+  version: 1.0.0
+paths:
+  /payments:
+    get:
+      summary: List payments
+      description: View all payments made by customers.
+      responses:
+        '200':
+          description: A list of payment records.
+    post:
+      summary: Record a new payment
+      description: Log a new payment against an invoice.
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Payment'
+      responses:
+        '201':
+          description: Payment recorded.
+
+  /payments/{id}:
+    get:
+      summary: Get payment by ID
+      description: View details of a specific payment.
+      parameters:
+        - in: path
+          name: id
+          required: true
+          schema:
+            type: string
+      responses:
+        '200':
+          description: Payment details.
+components:
+  schemas:
+    Payment:
+      type: object
+      properties:
+        id:
+          type: string
+        invoiceId:
+          type: string
+        method:
+          type: string
+        amount:
+          type: number

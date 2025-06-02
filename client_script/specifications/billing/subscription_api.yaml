@@ -1,0 +1,51 @@
+openapi: 3.0.0
+info:
+  title: Subscription API
+  version: 1.0.0
+paths:
+  /subscriptions:
+    get:
+      summary: List subscriptions
+      description: Retrieve active and inactive subscriptions for all customers.
+      responses:
+        '200':
+          description: A list of subscriptions.
+    post:
+      summary: Create a subscription
+      description: Subscribe a customer to a recurring billing plan.
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Subscription'
+      responses:
+        '201':
+          description: Subscription created.
+
+  /subscriptions/{id}:
+    get:
+      summary: Get subscription by ID
+      description: View the details of a specific subscription.
+      parameters:
+        - in: path
+          name: id
+          required: true
+          schema:
+            type: string
+      responses:
+        '200':
+          description: Subscription details.
+components:
+  schemas:
+    Subscription:
+      type: object
+      properties:
+        id:
+          type: string
+        customerId:
+          type: string
+        plan:
+          type: string
+        status:
+          type: string
