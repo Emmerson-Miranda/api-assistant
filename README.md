@@ -7,6 +7,24 @@ A FastAPI-based AI-powered service to **ingest**, **embed**, and **search OpenAP
 
 Enable developers or systems to search across a catalog of OpenAPI specifications using **natural language** or **semantic intent**, powered by modern **embedding models**.
 
+## Out-of-scope
+
+- Authentication and Authorization
+- Loging and audit
+- Session management
+
+
+## Example Flow
+
+1. **User uploads** OpenAPI JSON/YAML.
+2. Ingestion service:
+   - Parses and normalizes the data.
+   - Sends descriptions to the embedding engine.
+   - Stores the resulting vectors in PgVector.
+3. User performs a **semantic search query** via Webpage.
+4. Query is embedded and compared to stored vectors.
+5. Top-k similar API endpoints are returned.
+
 
 ## Solution
 
@@ -102,6 +120,14 @@ graph TD
 
 ## Model
 
+| Table | Description |
+|-------|-------------|
+| `apis` | OpenAPI documents (name, version) |
+| `api_endpoints` | Parsed endpoints (`GET /users`) |
+| `embeddings` | Stores vector representation per endpoint |
+
+Supports standard relational normalization and indexing for fast lookup.
+
 ```mermaid
 erDiagram
     APIs ||--o{ APIEndpoints : has
@@ -132,4 +158,38 @@ erDiagram
     }
 
 ```
- type : summary, description, parameters, response schemas ...
+*type* : summary, description, parameters, response schemas ...
+
+This model supports multiple embeddings per API, key benefits are:
+
+1. Embedding Versioning
+    - re-embed content when:
+      - Switch to a newer model (e.g., text-embedding-3-small → text-embedding-3-large)
+      - Refine your embedding strategy (e.g., different preprocessing)
+
+    - Historical embeddings allows:
+       - Compare models - helps to ensure you're using the best embedding representation for your accuracy, performance, and cost trade-offs.
+       - Re-rank results
+       - Roll back mistakes
+
+2. Fine-tuned Use Cases
+    - You could store different embeddings for:
+      - Endpoint description
+      - Endpoint parameters
+      - Endpoint response schemas
+
+3. Multi-language Support
+    - Embed descriptions in multiple languages if your API is multilingual.
+
+
+
+## Technologies Used
+
+| Layer | Tech |
+|-------|------|
+| API | FastAPI |
+| Embedding | OpenAI Embeddings API |
+| Vector Search | PgVector (PostgreSQL extension) |
+| ORM | SQLAlchemy |
+| CLI/Agent | MCP or Python script |
+| Infra | Docker, Kubernetes/Kind |
