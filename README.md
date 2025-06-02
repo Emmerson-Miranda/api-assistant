@@ -93,7 +93,7 @@ graph TD
 
 ## Components
 
-- **Script**  
+- **Client Script**  
   Read local OpenAPI specifications and upload to the system.
   
 - **OpenAPI Ingestion Service (FastAPI)**  
