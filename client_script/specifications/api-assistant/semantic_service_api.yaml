@@ -1,0 +1,83 @@
+openapi: 3.0.0
+info:
+  title: Semantic Search API
+  version: 1.0.0
+  description: >
+    This API accepts a free-text query and returns a relevant response.
+    Used for semantic search, conversational agents, or natural language interfaces.
+servers:
+  - url: http://localhost:8001
+
+paths:
+  /query:
+    post:
+      summary: Submit a semantic query
+      description: Send a natural language query and get a text-based response.
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                query:
+                  type: string
+                  description: Natural language query string
+              required:
+                - query
+      responses:
+        '200':
+          description: Textual response from the semantic service
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  response:
+                    type: string
+                    description: Answer or result based on the query
+        '400':
+          description: Bad request – missing or malformed input
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  error:
+                    type: string
+        '401':
+          description: Unauthorized – authentication required
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  error:
+                    type: string
+        '403':
+          description: Forbidden – you do not have access to this resource
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  error:
+                    type: string
+        '404':
+          description: Not found – endpoint or resource doesn't exist
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  error:
+                    type: string
+        '500':
+          description: Internal server error
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  error:
+                    type: string

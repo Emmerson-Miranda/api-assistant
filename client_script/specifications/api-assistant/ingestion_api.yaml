@@ -1,0 +1,54 @@
+openapi: 3.0.0
+info:
+  title: OpenAPI Ingestion Service
+  version: 1.0.0
+  description: >
+    An API that allows clients to upload raw OpenAPI specifications (JSON or YAML).
+    This service ingests, parses, and stores metadata or embeddings for semantic search.
+servers:
+  - url: http://localhost:8000
+
+paths:
+  /upload:
+    post:
+      summary: Upload OpenAPI specification
+      description: >
+        Upload a raw OpenAPI definition (JSON or YAML) to be processed and indexed for semantic search.
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                spec:
+                  type: object
+                  description: The OpenAPI specification (as a JSON object).
+                  additionalProperties: true
+              required:
+                - spec
+          text/plain:
+            schema:
+              type: string
+              description: Raw OpenAPI YAML string
+          application/x-yaml:
+            schema:
+              type: string
+              description: Raw OpenAPI YAML string
+      responses:
+        '200':
+          description: Specification uploaded and processed successfully.
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  message:
+                    type: string
+                  api_id:
+                    type: string
+                    description: Unique identifier for the ingested API
+        '400':
+          description: Invalid or malformed OpenAPI specification
+        '500':
+          description: Internal server error during processing
