@@ -1,0 +1,8 @@
+fastapi
+uvicorn
+langchain
+openai
+pydantic
+psycopg[binary]    # for PostgreSQL + pgvector
+sqlalchemy
+python-dotenv
