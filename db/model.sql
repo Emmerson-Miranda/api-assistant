@@ -2,28 +2,36 @@
 CREATE EXTENSION IF NOT EXISTS vector;
 
 -- Table: apis
-CREATE TABLE apis (
-    id SERIAL PRIMARY KEY,
-    name TEXT NOT NULL,
-    version TEXT NOT NULL,
-    UNIQUE(name, version)
+CREATE TABLE IF NOT EXISTS public.apis
+(
+    id character varying COLLATE pg_catalog."default" NOT NULL,
+    title character varying COLLATE pg_catalog."default" NOT NULL,
+    version character varying COLLATE pg_catalog."default" NOT NULL,
+    spec json NOT NULL,
+    uploaded_at timestamp without time zone DEFAULT now(),
+    CONSTRAINT apis_pkey PRIMARY KEY (id)
 );
 
 -- Table: api_endpoints
-CREATE TABLE api_endpoints (
-    id SERIAL PRIMARY KEY,
-    api_id INTEGER NOT NULL REFERENCES apis(id) ON DELETE CASCADE,
-    method TEXT NOT NULL,
-    path TEXT NOT NULL,
-    summary TEXT,
-    description TEXT,
-    UNIQUE(api_id, method, path)
+CREATE TABLE IF NOT EXISTS public.api_endpoints
+(
+    id character varying COLLATE pg_catalog."default" NOT NULL,
+    api_id character varying COLLATE pg_catalog."default" NOT NULL,
+    path character varying COLLATE pg_catalog."default" NOT NULL,
+    method character varying COLLATE pg_catalog."default" NOT NULL,
+    summary text COLLATE pg_catalog."default",
+    operation_id character varying COLLATE pg_catalog."default",
+    CONSTRAINT api_endpoints_pkey PRIMARY KEY (id),
+    CONSTRAINT api_endpoints_api_id_fkey FOREIGN KEY (api_id)
+        REFERENCES public.apis (id) MATCH SIMPLE
+        ON UPDATE NO ACTION
+        ON DELETE NO ACTION
 );
 
 -- Table: embeddings
 CREATE TABLE embeddings (
     id SERIAL PRIMARY KEY,
-    endpoint_id INTEGER NOT NULL REFERENCES api_endpoints(id) ON DELETE CASCADE,
+    endpoint_id character varying NOT NULL REFERENCES api_endpoints(id) ON DELETE CASCADE,
     embedding vector(1536) NOT NULL, -- assumes OpenAI’s text-embedding-3-small
     model TEXT NOT NULL,             -- e.g., 'text-embedding-3-small'
     part TEXT NOT NULL,              -- e.g., 'text', 'title', 'description'
