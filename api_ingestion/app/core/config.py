@@ -16,10 +16,7 @@ def get_openai_api_key():
 
 def get_database_url():
     """Retrieve the database URL from environment variables."""
-    db_url = os.getenv("DATABASE_URL")
-    if not db_url:
-        raise ValueError("DATABASE_URL environment variable is not set")
-    return db_url
+    return f"postgresql+psycopg2://{get_database_user()}:{get_database_password()}@{get_database_host()}:{get_database_port()}/{get_database_name()}"
 
 
 def get_openai_model_embedding():
@@ -36,3 +33,28 @@ def get_openai_mock_enable():
 def get_database_mock_enable():
     """Check if database mocking is enabled."""
     return os.getenv("DATABASE_MOCK_ENABLE", "true").lower() == "true"
+
+
+def get_database_host():
+    """Retrieve the database host from environment variables."""
+    return os.getenv("DATABASE_HOST", "localhost")
+
+
+def get_database_port():
+    """Retrieve the database port from environment variables."""
+    return os.getenv("DATABASE_PORT", "5432")
+
+
+def get_database_user():
+    """Retrieve the database user from environment variables."""
+    return os.getenv("DATABASE_USER", "testuser")
+
+
+def get_database_password():
+    """Retrieve the database password from environment variables."""
+    return os.getenv("DATABASE_PASSWORD", "testpwd")
+
+
+def get_database_name():
+    """Retrieve the database name from environment variables."""
+    return os.getenv("DATABASE_NAME", "vectordb")

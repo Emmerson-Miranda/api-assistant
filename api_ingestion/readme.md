@@ -24,10 +24,20 @@ uvicorn app.main:app --reload
 
 Curl with happy path
 
+Example 1
+
 ```bash
 curl -X POST http://localhost:8000/upload \
   -H "Content-Type: application/json" \
   -d '{"spec": {"openapi": "3.0.0", "info": {"title": "Test API", "version": "1.0"}, "paths": {}}}'
+```
+
+Example 2
+
+```bash
+curl -X POST http://localhost:8000/upload \
+  -H "Content-Type: application/text" \
+  --data-binary @../client_script/specifications/billing/customer_api.yaml
 ```
 
 ## Docker (build and run)
