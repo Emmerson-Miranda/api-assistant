@@ -50,5 +50,5 @@ docker build -t ingestion-api .
 docker run --env-file .env -p 8000:8000 ingestion-api
 
 # Run docker compose
-docker compose --env-file .env up
+docker compose up
 ```
