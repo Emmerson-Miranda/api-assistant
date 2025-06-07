@@ -58,3 +58,17 @@ def get_database_password():
 def get_database_name():
     """Retrieve the database name from environment variables."""
     return os.getenv("DATABASE_NAME", "vectordb")
+
+
+def print_config():
+    """Print the current configuration settings."""
+    print("OpenAI API Key: **REDACTED**")   # Do not print the actual API key for security reasons
+    print("Database URL:", get_database_url())
+    print("OpenAI Model for Embedding:", get_openai_model_embedding())
+    print("OpenAI Mock Enable:", get_openai_mock_enable())
+    print("Database Mock Enable:", get_database_mock_enable())
+    print("Database Host:", get_database_host())
+    print("Database Port:", get_database_port())
+    print("Database User:", get_database_user())
+    print("Database Password:", get_database_password())
+    print("Database Name:", get_database_name())

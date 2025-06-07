@@ -1,7 +1,7 @@
 # FastAPI entrypoint
 from fastapi import FastAPI, HTTPException, Body
 from app.models.dao import save
-
+from app.core import config
 import yaml
 import json
 import logging
@@ -10,6 +10,8 @@ import logging
 logging.basicConfig(level=logging.INFO)
 
 app = FastAPI()
+
+config.print_config()
 
 
 @app.post("/upload")
