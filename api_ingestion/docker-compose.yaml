@@ -1,0 +1,7 @@
+services:
+  haproxy:
+    image: ingestion-api:latest
+    container_name: ingestion-api
+    network_mode: host
+    ports:
+      - "8080:8080"
