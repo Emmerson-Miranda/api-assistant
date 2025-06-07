@@ -1,0 +1,9 @@
+services:
+  haproxy:
+    image: semantic-search-api:latest
+    container_name: semantic-search-api
+    network_mode: host
+    ports:
+      - "8080:8080"
+    env_file:
+      - ./.env
