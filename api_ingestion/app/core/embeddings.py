@@ -1,5 +1,6 @@
 from openai import OpenAI
 from app.core import config
+from app.core.openai_embedding_mock import response_from_openai_embedding_api
 import logging
 
 
@@ -36,13 +37,7 @@ def generate_embedding(text: str, model: str = "text-embedding-3-small"):
 
     if mock:
         # https://platform.openai.com/docs/guides/embeddings/embedding-models
-        # embedding text is: ""Your text string goes here"
-        return [
-            -0.006929283495992422,
-            -0.005336422007530928,
-            -4.547132266452536e-05,
-            -0.024047505110502243
-        ]
+        return response_from_openai_embedding_api["data"][0]["embedding"]
     else:
         text = text.replace("\n", " ")
         response = client.embeddings.create(

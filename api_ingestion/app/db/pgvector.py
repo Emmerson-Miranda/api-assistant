@@ -72,8 +72,9 @@ class Embedding(Base):
     id = Column(String, primary_key=True, default=lambda: str(uuid.uuid4()))
     endpoint_id = Column(String, ForeignKey("api_endpoints.id"), nullable=False)
     model = Column(String, nullable=False)  # e.g., text-embedding-ada-002
+    part = Column(String, nullable=False)  # e.g., 'text', 'title', 'description'
     created_at = Column(DateTime, server_default=func.now())
-    # TODO embedding = Column(Vector(1536), nullable=False)  # 1536 = OpenAI ada-002 output
+    embedding = Column(Vector(1536), nullable=False)  # 1536 = OpenAI ada-002 output
 
     endpoint = relationship("APIEndpoint", back_populates="embeddings")
 
@@ -115,12 +116,15 @@ def save_embedding(embedding, spec: dict) -> str:
                     operation_id=op.get("operationId")
                 )
                 record_api.endpoints.append(endpoint)
+                
                 embedding_record = Embedding(
                     id=str(uuid.uuid4()),
                     endpoint_id=endpoint.id,
-                    model=config.get_openai_model_embedding()
+                    model=config.get_openai_model_embedding(),
+                    part="all",
+                    embedding=embedding
                 )
-                #endpoint.embeddings.append(embedding_record)
+                endpoint.embeddings.append(embedding_record)
 
         session = SessionLocal()
         try:

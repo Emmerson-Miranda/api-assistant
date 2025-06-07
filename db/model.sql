@@ -30,7 +30,7 @@ CREATE TABLE IF NOT EXISTS public.api_endpoints
 
 -- Table: embeddings
 CREATE TABLE embeddings (
-    id SERIAL PRIMARY KEY,
+    id character varying COLLATE pg_catalog."default" NOT NULL,
     endpoint_id character varying NOT NULL REFERENCES api_endpoints(id) ON DELETE CASCADE,
     embedding vector(1536) NOT NULL, -- assumes OpenAI’s text-embedding-3-small
     model TEXT NOT NULL,             -- e.g., 'text-embedding-3-small'
