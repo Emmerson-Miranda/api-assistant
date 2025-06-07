@@ -70,5 +70,5 @@ def print_config():
     print("Database Host:", get_database_host())
     print("Database Port:", get_database_port())
     print("Database User:", get_database_user())
-    print("Database Password:", get_database_password())
+    print("Database Password: **REDACTED**")
     print("Database Name:", get_database_name())

@@ -9,9 +9,22 @@ import logging
 
 logging.basicConfig(level=logging.INFO)
 
-app = FastAPI()
+api_title = "Ingestion Service API"
 
-config.print_config()
+app = FastAPI(title=api_title,
+              description="Accepts raw OpenAPI specs (JSON/YAML), parses endpoints, and extracts semantic descriptions.", 
+              version="1.0.0")
+
+
+@app.on_event("startup")
+async def startup_event():
+    logging.info(f"Starting up the '{api_title}' ...")
+    config.print_config()
+
+
+@app.on_event("shutdown")
+async def shutdown_event():
+    logging.info(f"Shutting down the '{api_title}' ...")
 
 
 @app.post("/upload")
