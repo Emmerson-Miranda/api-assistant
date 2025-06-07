@@ -130,37 +130,20 @@ Supports standard relational normalization and indexing for fast lookup.
 
 ```mermaid
 erDiagram
-    APIs ||--o{ APIEndpoints : has
-    APIEndpoints ||--o{ Embeddings : stores
 
     APIs {
         int id PK
-        string name
+        string title
         string version
-    }
-
-    APIEndpoints {
-        int id PK
-        int api_id FK
-        string method
-        string path
-        string summary
-        string description
-    }
-
-    Embeddings {
-        int id PK
-        int endpoint_id FK
-        string type 
-        string model 
+        json spec
         vector embedding
-        datetime created_at
+        string model
+        string uploaded_at
     }
-
 ```
 *type* : summary, description, parameters, response schemas ...
 
-This model supports multiple embeddings per API, key benefits are:
+This model can be improved to support multiple embeddings per API, key benefits are:
 
 1. Embedding Versioning
     - re-embed content when:
