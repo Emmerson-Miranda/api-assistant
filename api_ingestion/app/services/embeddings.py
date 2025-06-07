@@ -1,6 +1,6 @@
 from openai import OpenAI
 from app.core import config
-from app.core.openai_embedding_mock import response_from_openai_embedding_api
+from app.services.openai_embedding_mock import response_from_openai_embedding_api
 import logging
 
 

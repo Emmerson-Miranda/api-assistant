@@ -12,4 +12,4 @@ services:
       - POSTGRES_PASSWORD=testpwd
       - POSTGRES_HOST_AUTH_METHOD=trust
     volumes:
-     - ./model.sql:/docker-entrypoint-initdb.d/init.sql
+     - ./model_simplified.sql:/docker-entrypoint-initdb.d/init.sql
